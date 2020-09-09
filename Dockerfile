@@ -17,7 +17,7 @@ RUN npm i
 # Copy the rest of the code
 COPY . .                
 
-# Invoke the build script to transpile code to js
+# Invoke the build script to transpile ts code to js
 RUN npm run build     
 
 # Final stage
