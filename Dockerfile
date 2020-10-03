@@ -1,3 +1,5 @@
+ARG PORT=3000
+
 FROM node:14-alpine AS node
 
 
@@ -18,7 +20,13 @@ RUN npm i
 COPY . .                
 
 # Invoke the build script to transpile ts code to js
-RUN npm run build     
+RUN npm run build    
+
+# Open desired port
+EXPOSE ${PORT}
+
+# Run development server
+ENTRYPOINT [ "npm", "run", "dev" ]
 
 # Final stage
 
@@ -52,7 +60,7 @@ RUN npm i --only=production
 COPY --chown=node:node --from=builder /app/dist ./dist
 
 # Open desired port
-EXPOSE 3000
+EXPOSE ${PORT}
 
 # Use PM2 to run the application as stated in config file
 ENTRYPOINT ["pm2-runtime", "./process.yml"] 
